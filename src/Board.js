@@ -79,12 +79,36 @@
     //
     // test if a specific row on this board contains a conflict
     hasRowConflictAt: function(rowIndex) {
+      //if the row has any pieces on any index
+      var row = this.get(rowIndex);
+      var count = 0;
+
+      for (var i = 0; i < row.length; i++) {
+        count += row[i];
+      }
+
+      if (count > 1) {
+        return true;
+      }
+      // return true
       return false; // fixme
     },
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
-      return false; // fixme
+      //for loop to iterate over all rows
+      var length = this.get('n');  //4
+      for (var i = 0; i < length; i++) {
+        if (this.hasRowConflictAt(i)) {
+          return true;
+        }
+      }
+      //use hasRowConflictAt(rowIndex)-> i to look at all potential conflicts
+
+      //if there is a conflict
+      //return true;
+      //otherwise
+      return false;
     },
 
 
@@ -94,11 +118,29 @@
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
+      var length = this.get('n');
+      var count = 0;
+      for (var i = 0; i < length; i++) {
+        column = this.get(i);
+        count += column[colIndex];
+      }
+
+      if (count >= 2) {
+        return true;
+      }
       return false; // fixme
     },
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
+      var height = this.get('n');
+      for (var i = 0; i < height; i++) {  //1
+        //for (var j = 0; j < height[i]; j++) {  //2
+        if (this.hasColConflictAt(i)) {
+          return true;
+        }
+        // }
+      }
       return false; // fixme
     },
 
@@ -109,6 +151,20 @@
     //
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
+      var rows = this.rows();
+      var startingRow = 0;
+      var startingCol = majorDiagonalColumnIndexAtFirstRow;
+      var count = 0;
+
+      for (var i = 0; i < rows.length; i++) {
+        //console.log(length[i][startingCol]);
+        count += rows[i][startingCol];
+        startingCol++;
+      }
+      if (count >= 2) {
+        return true;
+      }
+
       return false; // fixme
     },
 
