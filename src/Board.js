@@ -145,7 +145,6 @@
     },
 
 
-
     // Major Diagonals - go from top-left to bottom-right
     // --------------------------------------------------------------
     //
@@ -156,20 +155,36 @@
       var startingCol = majorDiagonalColumnIndexAtFirstRow;
       var count = 0;
 
-      for (var i = 0; i < rows.length; i++) {
-        //console.log(length[i][startingCol]);
-        count += rows[i][startingCol];
-        startingCol++;
+      if (startingCol < 0) {
+        startingRow = Math.abs(startingCol);
+        startingCol = 0;
+      }
+
+      for (var r = startingRow; r < rows.length; r++) {
+
+        //if rows r starting column !== undefined
+        if (rows[r][startingCol] !== undefined) {
+          //then do this...
+          count += rows[r][startingCol];
+          startingCol++;
+        }
       }
       if (count >= 2) {
         return true;
       }
-
       return false; // fixme
     },
 
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
+      var length = (this.get('n') * 2);
+      for (var i = ((length / 2) * -1); i < length; i++) { //1
+        //for (var j = 0; j < height[i]; j++) {  //2
+        if (this.hasMajorDiagonalConflictAt(i)) {
+          return true;
+        }
+        // }
+      }
       return false; // fixme
     },
 
@@ -180,6 +195,36 @@
     //
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
+      debugger;
+      var rows = this.rows();
+      var startingRow = 0;
+      var startingCol = minorDiagonalColumnIndexAtFirstRow;
+      var count = 0;
+
+      if (startingCol < 0) {
+        return false;
+      }
+      //      r  = 0          ; 0 < 6
+      for (var r = (rows.length * 1.5); r >= startingRow; r--) {
+        //rows[0][1]
+        //count = 1
+        //rows[1][0]
+        //count = 2
+        //startingCol = -1
+
+        //if rows r starting column !== undefined
+        if (rows[r][startingCol] !== undefined) {
+          //then do this...
+          count += rows[r][startingCol];
+          startingCol--;
+          if (startingCol < startingRow) {
+            break;
+          }
+        }
+      }
+      if (count >= 2) {
+        return true;
+      }
       return false; // fixme
     },
 
